@@ -45,7 +45,8 @@ def record_audio(args):
 	p.terminate()
 
 	# set the filename
-	if args.name == None:
+	FILENAME = args.name
+	if FILENAME == None:
 		# concatenate the values
 		FILENAME = "{}_{}Hz_{}s.wav".format(args.format, args.rate, args.seconds)
 
@@ -86,6 +87,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
 """Benchmark of the sizes between different combinations of rate and format
