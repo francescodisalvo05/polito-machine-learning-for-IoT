@@ -19,7 +19,7 @@ def get_mfcc(args):
 	byte_spectrogram = tf.io.read_file(args.base_path + args.filename)
 	# transform the serialized tensor into a tensor
 	print('--- Transforming the serialized tensor into a tensor ---')
-	tensor_spectrogram = tf.io.parse_tensor(byte_spectrogram, out_type=tf.float32)
+	spectrogram = tf.io.parse_tensor(byte_spectrogram, out_type=tf.float32)
 
 	# compute the Mel spectrogram with 40mel bins, 20Hz as lower freq and 4kHz as upper freq
 	print('--- Extracting the spectrogram from the stft ---')
@@ -33,7 +33,10 @@ def get_mfcc(args):
 						args.lower_frequency,
 						args.upper_frequency
 					)
+	mel_spectrogram = tf.tensordot(spectrogram, linear_to_mel_weight_matrix,1)
+	mel_spectrogram.set_shape(spectrogram.shape[:-1].concatenate(linear_to_mel_weight_matrix.shape[-1:]))
 
+	log_mel_spectrogram = tf.math.log(mel_spectrogram + 1e-6)
 
 def main():
 
