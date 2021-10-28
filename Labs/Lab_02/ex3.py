@@ -27,7 +27,7 @@ def get_mfcc(args):
 
 	num_spectrogram_bins = spectrogram.shape[-1]
 	linear_to_mel_weight_matrix = tf.signal.linear_to_mel_weight_matrix(
-						num_spectrogram_bins
+						num_spectrogram_bins,
 						args.num_spectrogram_bins,
 						args.sampling_rate,
 						args.lower_frequency,
@@ -42,7 +42,7 @@ def get_mfcc(args):
 	# compute the MFCCs from the log scaled mel spectrogram and take the first 10 coefficients
 	print('--- Computing the MFCCs ---')
 	time_mfcc = time.time()
-	mfccs = tf.signal.mfccs_from_log_mel_spectrograms(log_mel_spectrogram)[,:10]
+	mfccs = tf.signal.mfccs_from_log_mel_spectrograms(log_mel_spectrogram)[...,:10]
 	print(f'--- Computed the MFCCs in {time.time() - time_mfcc} seconds --- ')
 
 	# convert the MFCCs in byte tensor and write it on disk
@@ -55,8 +55,8 @@ def get_mfcc(args):
 	print('--- Saved the MFCCs on disk ---')
 
 	# get the sizes
-	print(f'--- The size of the MFCCs is {os.path.getsize(mfccs_filename} ---')
-	print(f'--- The size of the spectrogra is {os.path.getsize(args.base_path + args.filename} ---')
+	print(f'--- The size of the MFCCs is {os.path.getsize(mfccs_filename)} ---')
+	print(f'--- The size of the spectrogra is {os.path.getsize(args.base_path + args.filename)} ---')
 
 def main():
 
