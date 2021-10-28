@@ -27,8 +27,8 @@ def get_mfcc(args):
 
 	num_spectrogram_bins = spectrogram.shape[-1]
 	linear_to_mel_weight_matrix = tf.signal.linear_to_mel_weight_matrix(
+						args.num_mel_bins,
 						num_spectrogram_bins,
-						args.num_spectrogram_bins,
 						args.sampling_rate,
 						args.lower_frequency,
 						args.upper_frequency
@@ -65,7 +65,7 @@ def main():
 	parser.add_argument('--base_path', type=str, default='audio/')
 	parser.add_argument('--filename', type=str, default='sftf_res_yes_01.wav')
 
-	parser.add_argument('--num_spectrogram_bins', type=int, default=40)
+	parser.add_argument('--num_mel_bins', type=int, default=40)
 	parser.add_argument('--sampling_rate', type=int, default=16000)
 	parser.add_argument('--lower_frequency', type=int, default=20)
 	parser.add_argument('--upper_frequency', type=int, default=4000)
