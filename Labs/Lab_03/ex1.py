@@ -5,6 +5,33 @@ import pandas as pd
 import tensorflow as tf
 
 
+class WindowGenerator:
+    """Python class called that implement the data preparation and preprocessing stages. 
+    The output is a tf.data.Dataset composed by six-value temperature and humidity windows 
+    (the shape of each window is 6×2) and the temperature labels for each window. 
+    Each window is normalized with the mean and standard deviation of the training set. 
+    """
+    def __init__(self, window_size, label_options, mean, std):
+        #  mean and std must be comparable with the data
+        self.mean = tf.reshape(tf.convert_to_tensor(mean), [1, 1, 2])
+        self.std = tf.reshape(tf.convert_to_tensor(std), [1, 1, 2])
+        
+        self.window_size = window_size
+        self.label_options = label_options
+
+    def get_window(self, features):
+        pass
+
+    def normalize(self, features):
+        pass
+
+    def preprocess(self, features):
+        pass
+
+    def get_dataset(self, data, train):
+        pass
+
+
 def get_data(args):
 
     # get dataset
