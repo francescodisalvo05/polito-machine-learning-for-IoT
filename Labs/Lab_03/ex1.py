@@ -5,31 +5,59 @@ import pandas as pd
 import tensorflow as tf
 
 
+# draft provided by the instructor
 class WindowGenerator:
-    """Python class called that implement the data preparation and preprocessing stages. 
+    """Python class that implement the data preparation and preprocessing stages. 
     The output is a tf.data.Dataset composed by six-value temperature and humidity windows 
     (the shape of each window is 6×2) and the temperature labels for each window. 
     Each window is normalized with the mean and standard deviation of the training set. 
     """
-    def __init__(self, window_size, label_options, mean, std):
-        #  mean and std must be comparable with the data
+    def __init__(self, input_width, label_options, mean, std):
+        self.input_width = input_width
+        self.label_options = label_options
         self.mean = tf.reshape(tf.convert_to_tensor(mean), [1, 1, 2])
         self.std = tf.reshape(tf.convert_to_tensor(std), [1, 1, 2])
-        
-        self.window_size = window_size
-        self.label_options = label_options
 
-    def get_window(self, features):
-        pass
+    def split_window(self, features):
+        inputs = features[:, :-1, :]
+
+        if self.label_options < 2:
+            labels = features[:, -1, self.label_options]
+            labels = tf.expand_dims(labels, -1)
+            num_labels = 1
+        else:
+            labels = features[:, -1, :]
+            num_labels = 2
+
+        inputs.set_shape([None, self.input_width, 2])
+        labels.set_shape([None, num_labels])
+
+        return inputs, labels
 
     def normalize(self, features):
-        pass
+        features = (features - self.mean) / (self.std + 1.e-6)
+
+        return features
 
     def preprocess(self, features):
-        pass
+        inputs, labels = self.split_window(features)
+        inputs = self.normalize(inputs)
 
-    def get_dataset(self, data, train):
-        pass
+        return inputs, labels
+
+    def make_dataset(self, data, train):
+        ds = tf.keras.preprocessing.timeseries_dataset_from_array(
+                data=data,
+                targets=None,
+                sequence_length=input_width+1,
+                sequence_stride=1,
+                batch_size=32)
+        ds = ds.map(self.preprocess)
+        ds = ds.cache()
+        if train is True:
+            ds = ds.shuffle(100, reshuffle_each_iteration=True)
+
+        return ds
 
 
 def get_data(args):
@@ -58,6 +86,22 @@ def get_data(args):
     val_data = dataset[train_idx:val_idx]
     test_data = dataset[val_idx:]
 
+    # normalize everything with the values of the
+    # training data
+    mean = train_data.mean(axis=0)
+    std = train_data.std(axis=0)
+
+    # fixed
+    window_length = 6
+
+    generator = WindowGenerator(window_length, args.labels, mean, std)
+    train_ds = generator.make_dataset(train_data, True)
+    val_ds = generator.make_dataset(val_data, False)
+    test_ds = generator.make_dataset(test_data, False)
+
+    return train_ds, val_ds, test_ds
+
+
 
 def main():
 
@@ -71,7 +115,7 @@ def main():
     tf.random.set_seed(seed)
     np.random.seed(seed)
 
-    # get_data(args)
+    train_ds, val_ds, test_ds = get_data(args)
     
 
 
