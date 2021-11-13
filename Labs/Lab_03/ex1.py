@@ -3,6 +3,7 @@ import numpy as np
 import os
 import pandas as pd
 import tensorflow as tf
+from tensorflow import keras
 
 
 # draft provided by the instructor
@@ -103,6 +104,19 @@ def get_data(args):
 
 
 
+def get_model(args):
+
+    if args.model == "MLP":
+        model = keras.Sequential([
+          keras.layers.Flatten(input_shape=(6, 2)),
+          keras.layers.Dense(128, activation='relu', name='first_dense'),
+          keras.layers.Dense(128, activation='relu', name='second_dense'),
+          keras.layers.Dense(1, activation='softmax', name='third_dense')
+        ])
+
+    return model
+
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -116,6 +130,8 @@ def main():
     np.random.seed(seed)
 
     train_ds, val_ds, test_ds = get_data(args)
+
+
     
 
 
