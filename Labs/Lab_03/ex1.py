@@ -104,9 +104,9 @@ def get_data(args):
 
 
 
-def get_model(args):
+def get_model(model_name):
 
-    if args.model == "MLP":
+    if model_name == "MLP":
         model = keras.Sequential([
           keras.layers.Flatten(),
           keras.layers.Dense(128, activation='relu', name='first_dense'),
