@@ -1,3 +1,12 @@
+"""
+The Jena Climate dataset is a weather time series dataset containing 14 features (e.g. temperature, 
+atmospheric pressure, humidity) collected every 10 minutes from 2009 to 2016.
+
+Write a Python script to train and evaluate different models for temperature forecasting on the 
+Jena Climate dataset. Select as input features of your model six consecutive temperature and 
+humidity measurements. The model should predict the temperature for the next time instant.
+"""
+
 import argparse
 import numpy as np
 import os
