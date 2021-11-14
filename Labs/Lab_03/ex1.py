@@ -122,6 +122,13 @@ def get_model(model_name):
           keras.layers.Dense(1)
       ])
 
+    elif model_name == "LSTM":
+      model = keras.Sequential([
+          tf.keras.layers.LSTM(units=64),
+          keras.layers.Flatten(),
+          keras.layers.Dense(1)
+      ])
+
     return model
 
 
