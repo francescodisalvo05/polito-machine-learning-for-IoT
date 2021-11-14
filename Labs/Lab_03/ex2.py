@@ -30,18 +30,18 @@ def load_data():
 
 
 class SignalGenerator:
-    """Python class called that implements the data 
+    """Python class called SignalGenerator to implement the data 
     preparation and preprocessing steps."""
     def __init__(self, 
-               keywords, 
-               sampling_rate,
-               frame_length,
-               frame_step,
-               num_mel_bins,
-               low_freq,
-               up_freq,
-               num_coefficients,
-               bool_mfcc):
+                keywords, 
+                sampling_rate,
+                frame_length,
+                frame_step,
+                num_mel_bins,
+                low_freq,
+                up_freq,
+                num_coefficients,
+                bool_mfcc):
         self.keywords = keywords
         self.sampling_rate = sampling_rate
         self.frame_length = frame_length
@@ -52,7 +52,9 @@ class SignalGenerator:
         self.num_coefficients = num_coefficients
         self.bool_mfcc = bool_mfcc
 
+
     def get_raw_dataset(self, path):
+
         labels = []
         path_files = []
 
@@ -76,8 +78,8 @@ class SignalGenerator:
 
         # to do : pad the audio to 1s
 
-        frame_length = int(self.frame_length * 1e-3 * rate.numpy())
-        frame_step = int(self.frame_step * 1e-3 * rate.numpy())
+        frame_length = int(self.frame_length * 1e-3 * 16000)
+        frame_step = int(self.frame_step * 1e-3 * 16000)
 
         # compute the stft
         stft = tf.signal.stft(tf_audio, frame_length, frame_step, fft_length=frame_length)
@@ -85,7 +87,7 @@ class SignalGenerator:
         # extract the spectrogram
         spectrogram = tf.abs(stft)
 
-        if self.bool_fcc:
+        if self.bool_mfcc:
             # compute the MFCC
             num_spectrogram_bins = spectrogram.shape[-1]
             linear_to_mel_weight_matrix = tf.signal.linear_to_mel_weight_matrix(
@@ -102,9 +104,9 @@ class SignalGenerator:
             mfccs = mfccs[..., :self.num_coefficients]
 
             return mfccs, label 
-        
         else:
             return stft, label
+
 
     def make_dataset(self,path):
 
