@@ -111,6 +111,25 @@ class SignalGenerator:
     def make_dataset(self,path):
 
         ds = self.get_raw_dataset(path)
+        ds = ds.shuffle(200)
         ds = ds.map(self.load_and_preprocess_audio)
 
         return ds
+
+
+################################
+########### MAIN
+################################
+
+signalgenerator = SignalGenerator(
+               keywords = ['down','go','left','no','right','stop','up','yes'], 
+               sampling_rate = 16000,
+               frame_length = 16,
+               frame_step = 8,
+               num_mel_bins = None,
+               low_freq = None,
+               up_freq = None,
+               num_coefficients = None,
+               bool_mfcc = False)
+
+ds = signalgenerator.make_dataset('/content/data/mini_speech_commands')
