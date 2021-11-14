@@ -5,6 +5,10 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 
+import matplotlib.pyplot as plt
+from prettytable import PrettyTable
+
+
 
 # draft provided by the instructor
 class WindowGenerator:
@@ -160,9 +164,39 @@ def main():
     mae = []
     num_params = []
 
-    # MLP
-    mlp = get_model("MLP")
-    trained_mlp = train_model(model=mlp, train_data=train_ds, val_data=val_ds, optimizer='adam', loss='mse', metrics=['mae'], bs=256, epochs=20)
+    # train all the models for 1 epoch (just to see the pipeline)
+    for model_name in models:
+        print(f'\n---------- {model_name}')
+        model = get_model(model_name)
+        history_model = train_model(model=model, train_data=train_ds, val_data=val_ds, optimizer='adam', loss='mse', metrics=['mae'], bs=32, epochs=1)
+
+        # evaluate on the test set
+        mae.append(model.evaluate(test_ds, batch_size=32)[1])
+
+        # add final_mae
+        mae.append(history_model.history['mae'][-1])
+        # add num_params
+        num_params.append(model.count_params())
+
+    print('\n ')
+    # compare the #params and the test MAE
+    mae_params_table = PrettyTable(["Model", "#Params", "MAE"])
+    
+    for idx, model_name in enumerate(models):
+        mae_params_table.add_row([model_name, num_params[idx], mae[idx]])
+
+    print(mae_params_table)
+
+    # with one epoch
+    """
+    +--------+---------+--------------------+
+    | Model  | #Params |     Final MAE      |
+    +--------+---------+--------------------+
+    |  MLP   |  18305  | 0.8805603384971619 |
+    | CNN-1D |  16961  | 3.2827725410461426 |
+    |  LSTM  |  17217  | 0.8211777210235596 |
+    +--------+---------+--------------------+
+    """
 
 
 if __name__ == '__main__':
