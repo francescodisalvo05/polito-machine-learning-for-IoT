@@ -132,4 +132,15 @@ signalgenerator = SignalGenerator(
                num_coefficients = None,
                bool_mfcc = False)
 
+# dataset containing all the data (before the split)
 ds = signalgenerator.make_dataset('/content/data/mini_speech_commands')
+
+# split the dataset through take / skip
+N = len(ds)
+train_idx, val_idx = int(N*0.8), int(N*0.9)
+
+train_data = ds.take(train_idx)
+val_data = ds.skip(train_idx).take(val_idx - train_idx)
+test_data = ds.skip(val_idx).take(N - val_idx)
+
+# to do: use three different instances of SignalGenerator
