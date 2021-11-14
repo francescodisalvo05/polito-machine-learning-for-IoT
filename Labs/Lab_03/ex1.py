@@ -178,6 +178,12 @@ def main():
         # add num_params
         num_params.append(model.count_params())
 
+        # save model
+        run_model = tf.function(lambda x: model(x))
+        concrete_func = run_model.get_concrete_function(tf.TensorSpec([1, 6, 2],tf.float32))
+        # Signatures define the input and output types for a computation
+        model.save(model_name, signatures=concrete_func)
+
     print('\n ')
     # compare the #params and the test MAE
     mae_params_table = PrettyTable(["Model", "#Params", "MAE"])
