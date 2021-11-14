@@ -108,13 +108,22 @@ def get_model(args):
 
     if args.model == "MLP":
         model = keras.Sequential([
-          keras.layers.Flatten(input_shape=(6, 2)),
+          keras.layers.Flatten(),
           keras.layers.Dense(128, activation='relu', name='first_dense'),
           keras.layers.Dense(128, activation='relu', name='second_dense'),
-          keras.layers.Dense(1, activation='softmax', name='third_dense')
+          keras.layers.Dense(1, name='third_dense')
         ])
 
     return model
+
+
+def train_model(model, train_data, val_data, optimizer, loss, metrics, bs, epochs):
+    
+    model.compile(optimizer=optimizer,
+                loss=loss,
+                metrics=metrics)
+
+    model.fit(train_data, validation_data = val_data, batch_size=bs, epochs=epochs)
 
 
 def main():
@@ -131,8 +140,14 @@ def main():
 
     train_ds, val_ds, test_ds = get_data(args)
 
+    # plotting variables
+    models = ["MLP", "CNN-1D", "LSTM"]
+    mae = []
+    num_params = []
 
-    
+    # MLP
+    mlp = get_model("MLP")
+    trained_mlp = train_model(model=mlp, train_data=train_ds, val_data=val_ds, optimizer='adam', loss='mse', metrics=['mae'], bs=256, epochs=20)
 
 
 if __name__ == '__main__':
