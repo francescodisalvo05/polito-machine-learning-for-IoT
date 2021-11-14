@@ -114,6 +114,14 @@ def get_model(model_name):
           keras.layers.Dense(1, name='third_dense')
         ])
 
+    elif model_name == "CNN-1D":
+      model = keras.Sequential([
+          keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu'),
+          keras.layers.Flatten(),
+          keras.layers.Dense(64, activation='relu'),
+          keras.layers.Dense(1)
+      ])
+
     return model
 
 
