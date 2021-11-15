@@ -84,11 +84,17 @@ class SignalGenerator:
         # compute the stft
         stft = tf.signal.stft(tf_audio, frame_length, frame_step, fft_length=frame_length)
 
-        # extract the spectrogram
-        spectrogram = tf.abs(stft)
+        # compute the stft
+        stft = tf.signal.stft(tf_audio, frame_length, frame_step, fft_length=frame_length)
 
-        if self.bool_mfcc:
+        if not self.bool_mfcc:
+            stft = tf.image.resize(stft, [32,32])
+
+        else:
             # compute the MFCC
+
+            # extract the spectrogram
+            spectrogram = tf.abs(stft)
             num_spectrogram_bins = spectrogram.shape[-1]
             linear_to_mel_weight_matrix = tf.signal.linear_to_mel_weight_matrix(
                                                             self.num_mel_bins, 
