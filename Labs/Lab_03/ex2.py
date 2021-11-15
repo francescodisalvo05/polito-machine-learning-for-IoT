@@ -117,6 +117,66 @@ class SignalGenerator:
         return ds
 
 
+def get_model(model_name, mfcc):
+
+    if mfcc:
+        strides = [2,1]
+    else:
+        strides = [2,2]
+
+    if model_name == "MLP":
+        model = keras.Sequential([
+            keras.layers.Flatten(),
+            keras.layers.Dense(256, activation='relu', name='first_dense'),
+            keras.layers.Dense(256, activation='relu', name='second_dense'),
+            keras.layers.Dense(256, activation='relu', name='third_dense'),
+            keras.layers.Dense(8, name='fourth_dense')
+        ])
+
+    elif model_name == "CNN":
+
+        model = keras.Sequential([
+            keras.layers.Conv2D(filters=128, kernel_size=[3,3], stride=strides, use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.Conv2D(filters=128, kernel_size=[3,3], stride=[1,1], use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.Conv2D(filters=128, kernel_size=[3,3], stride=[1,1], use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.GlobalAveragePooling2D,
+            keras.layers.Dense(8),
+        ])
+
+    elif model_name == "DS-CNN":
+
+        model = keras.Sequential([
+            keras.layers.Conv2D(filters=256, kernel_size=[3,3], stride=strides, use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.DepthwiseConv2D(kernel_size=[3, 3], stride=[1, 1], use_bias=False),
+            keras.layers.Conv2D(filters=128, kernel_size=[3,3], stride=[1,1], use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.Conv2D(filters=128, kernel_size=[3,3], stride=[1,1], use_bias=False),
+            keras.layers.BatchNormalization(momentum=0.1),
+            keras.layers.ReLU(),
+            keras.layers.GlobalAveragePooling2D,
+            keras.layers.Dense(8),
+        ])
+
+
+    return model
+
+def train_model(model, train_data, val_data, optimizer, loss, metrics, bs, epochs):
+    
+    model.compile(optimizer=optimizer,
+                loss=loss,
+                metrics=metrics)
+
+    model.fit(train_data, validation_data = val_data, batch_size=bs, epochs=epochs)
+
 ################################
 ########### MAIN
 ################################
