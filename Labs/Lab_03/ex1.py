@@ -129,7 +129,7 @@ def get_data(args):
 def initialize_model(model_name, label_options):
     
     # label_options can assume only values 0,1,2
-    units = min(1,label_options)
+    units = max(1,label_options)
 
     if model_name == "MLP":
         model = keras.Sequential([
