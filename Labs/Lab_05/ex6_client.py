@@ -68,7 +68,7 @@ def main():
         ]
     }
 
-    url = "http://192.168.1.232:8080/{}".format(args.model)
+    url = "http://192.168.1.232:8080/dscnn"
 
     # I don't need to manually convert body in a json if I use the
     # json parameter in the put request
