@@ -74,7 +74,7 @@ if __name__ == "__main__":
 				"bn": "http://192.168.1.9/",
 				"bt": timestamp,
 				"e":[
-					{"n": "humidity", "u":"RH", "t":0, "v":body_hum},
+					{"n": "humidity", "u":"RH", "t":0, "v":humidity},
 				]
         	}
             
