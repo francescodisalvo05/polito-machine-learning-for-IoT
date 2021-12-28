@@ -9,7 +9,7 @@ if __name__ == "__main__":
     test.run()
 
     ten = True
-    for i in range(10):
+    for i in range(30):
         now = datetime.now()
 
         if ten is False:
@@ -24,6 +24,8 @@ if __name__ == "__main__":
         datetime_json = json.dumps({'datetime': datetime_str})
 
         test.myMqttClient.myPublish ("/206803/datetime", datetime_json)
+
+        print("\n")
         time.sleep(5)
 
     test.end()

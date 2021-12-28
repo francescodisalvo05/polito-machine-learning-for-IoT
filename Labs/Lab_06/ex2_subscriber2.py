@@ -7,10 +7,12 @@ import json
 class Subscriber(DoSomething):
     def notify(self, topic, msg):
         input_json = json.loads(msg)
+
         timestamp = input_json['timestamp']
         now = datetime.fromtimestamp(float(timestamp))
         datetime_str = now.strftime('%d-%m-%y %H:%M:%S')
-        print(topic, datetime_str)
+        
+        print(topic, datetime_str, sep="\t")
 
 
 if __name__ == "__main__":

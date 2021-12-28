@@ -6,7 +6,7 @@ import json
 class Subscriber(DoSomething):
     def notify(self, topic, msg):
         input_json = json.loads(msg)
-        print(topic, input_json['datetime'])
+        print(topic,input_json['datetime'],sep="\t")
 
 
 if __name__ == "__main__":
