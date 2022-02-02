@@ -2,7 +2,16 @@
 
 Assignements and exercises for the "Machine Learning for IoT" course at Politecnico di Torino (AY 2021/2022)
 
-> Credits for the text of the exercises to Calimera Andrea, Jahier Pagliari Daniele, Patti Edoardo, Peluso Valentino - teacher and teaching assistants of the course.
+> Credits for the text of the exercises to Andrea Calimera and Valentino Peluso - teacher and teaching assistants of the course.
+
+### Homeworks
+| Number  | Topic  | File(s) |
+| ------------- | ------------- | ------------- | 
+| 01 | TFRecord and audio preprocessing optimization | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_01)|
+| 02 | Multi step temperature/humidity forecasting and keyword spotting  | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_01)|
+
+
+### Labs
 
 | Number  | Date | Topic  | File(s) |
 | ------------- | ------------- | ------------- | ------------- |
