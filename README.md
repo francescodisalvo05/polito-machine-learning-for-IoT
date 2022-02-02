@@ -8,7 +8,9 @@ Assignements and exercises for the "Machine Learning for IoT" course at Politecn
 | Number  | Topic  | File(s) |
 | ------------- | ------------- | ------------- | 
 | 01 | TFRecord and audio preprocessing optimization | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_01)|
-| 02 | Multi step temperature/humidity forecasting and keyword spotting  | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_01)|
+| 02 | Multi step temperature/humidity forecasting and keyword spotting  | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_02)|
+| 03 | Registry service and edge cloud collaborative inference | [`link`](https://github.com/francescodisalvo05/polito-machine-learning-for-IoT/tree/main/Homeworks/Homework_03)|
+
 
 
 ### Labs
